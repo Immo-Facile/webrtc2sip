@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  rtcsip:
+    image: webrtc2sip
+    restart: unless-stopped
+    container_name: rtc2sipprod
+    ports:
+      - 10060:10060
+      - 10070:10070
+      - 10062:10062
+      - 10072:10072
+    volumes:
+      - ./config.xml:/usr/src/webrtc2sip/config.xml
+      - ./key.pem:/etc/webrtc2sip/key.pem
+      - ./root.pem:/etc/webrtc2sip/root.pem
+      - ./cert.pem:/etc/webrtc2sip/cert.pem
