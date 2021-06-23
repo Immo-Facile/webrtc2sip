@@ -23,10 +23,9 @@ RUN git clone https://github.com/DoubangoTelecom/webrtc2sip \
     && ./autogen.sh \
     && LDFLAGS=-ldl ./configure --prefix=$PREFIX \
     && make \
-    && make install \
-    && cp -f ./config.xml $PREFIX/sbin/config.xml
+    && make install
 
 ENV LD_LIBRARY_PATH=/usr/local/lib64
 WORKDIR /usr/src/webrtc2sip/
 
-ENTRYPOINT [ "bash", "-c", "./webrtc2sip --config=/etc/webrtc2sip/config.xml"]
+CMD "/usr/src/webrtc2sip/webrtc2sip" "--config=/etc/webrtc2sip/config.xml"
