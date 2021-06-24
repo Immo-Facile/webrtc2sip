@@ -1,19 +1,23 @@
 FROM debian:10
 
 RUN apt update -y \
-    && apt install -y git openssl libtool autoconf subversion git cvs wget pkg-config build-essential libgsm1 libssl-dev libxml2-dev libspeex-dev libspeexdsp-dev
+    && apt install -y git openssl libtool autoconf subversion git cvs wget pkg-config build-essential \
+        libgsm1 libssl-dev libxml2-dev libspeex-dev libspeexdsp-dev libopus-dev libgsm1-dev libopencore-amrnb-dev libvpx-dev
 
 WORKDIR /usr/src
 
 RUN git clone https://github.com/cisco/libsrtp/ \
     && cd libsrtp \
     && git checkout v1.5.4 \
-    && CFLAGS="-fPIC" ./configure --enable-pic && make && make install
+    && CFLAGS="-fPIC" ./configure --enable-pic \
+    && make \
+    && make install
 
-RUN git clone https://github.com/DoubangoTelecom/doubango \
-    && cd doubango \
+RUN git clone https://github.com/DoubangoTelecom/doubango
+
+RUN cd doubango \
     && ./autogen.sh \
-    && ./configure --with-ssl --with-srtp --with-speexdsp \
+    && ./configure --with-ssl --with-srtp --with-speexdsp --with-opus --with-gsm --with-amr --with-vpx  \
     && make \
     && make install
 
